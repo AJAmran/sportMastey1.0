@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { CiDark } from 'react-icons/ci';
 import { FiSun } from 'react-icons/fi';
 import logo from '../../../assets/logo.png'
+import { AuthContext } from '../../../contexts/AuthProvider';
 
 const Navbar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const user = null
+ const {user, logOut} = useContext(AuthContext)
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
@@ -16,6 +17,17 @@ const Navbar = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const handleLogOut = () =>{
+    logOut()
+    .then(result=>{
+      const user = result.user;
+      console.log(user)
+    })
+    .catch(error =>{
+      console.log(error)
+    })
+  }
 
   return (
     <nav className="bg-gray-800">
@@ -75,7 +87,7 @@ const Navbar = () => {
               </NavLink>
             </div>
           </div>
-          <div className="hidden sm:flex items-center">
+          <div className="hidden sm:flex items-center gap-4">
             <button className="mr-2 text-white" onClick={toggleDarkMode}>
               <CiDark />
             </button>
@@ -83,13 +95,16 @@ const Navbar = () => {
               <FiSun></FiSun>
             </button>
             {
-                user?.email ? <div className="ml-2">
+                user?.email ? <>
+                <div className="ml-2">
                 <img
-                  src="/profile.png" 
+                  src={user?.photoURL} 
                   alt="Profile"
                   className="h-8 rounded-full"
                 />
               </div>
+              <button onClick={handleLogOut} className='bg-[#006FA8] btn-sm px-2 text-white rounded text-sm'>Log Out</button>
+                </>
               :
               <NavLink
               to="/login"
@@ -170,13 +185,14 @@ const Navbar = () => {
           >
             Dashboard
           </NavLink>
-          <div className="flex items-center justify-center py-4">
-            <img
-              src="/profile.png" // TODO set profile picture
-              alt="Profile"
-              className="h-8 rounded-full"
-            />
-          </div>
+                <div className="ml-2">
+                <img
+                  src={user?.photoURL} 
+                  alt="Profile"
+                  className="h-8 rounded-full"
+                />
+              </div>
+              <button onClick={handleLogOut} className='bg-[#006FA8] btn-sm px-2 text-white rounded text-sm'>Log Out</button>
         </div>
       </div>
     </nav>

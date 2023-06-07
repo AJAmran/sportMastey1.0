@@ -1,19 +1,33 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import showpass from "../../assets/show.svg";
 import hidepass from "../../assets/hide.svg";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthProvider";
 
 const Login = () => {
+  const { user, singIn, googleSignIn } = useContext(AuthContext);
+  const [error, setError] = useState('')
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
+  console.log(user);
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
-    //TODO Perform login logic here
+    const {email, password} = data
+    console.log(email, password)
+    singIn(email, password)
+    .then(result=>{
+      const loggedUser = result.user;
+      console.log(loggedUser);
+      navigate(from, {replace: true});
+    })
+    .catch(error=>{
+      setError(error.message)
+    })
+    setError('')
   };
 
   const [passwordVisible, setPasswordVisible] = React.useState(false);
@@ -23,14 +37,22 @@ const Login = () => {
   };
 
   const handleGoogleLogin = () => {
-    //
+    googleSignIn()
+    .then(result =>{
+      const user = result.user;
+      console.log(user);
+      navigate(from, {replace: true});
+    })
+    .catch(error =>{
+      setError(error.message);
+    })
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row min-h-screen items-center justify-center">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row min-h-screen items-center justify-center gap-6">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="max-w-sm mx-auto p-4 bg-white rounded shadow h-full"
+        className="w-full md:w-3/5 lg:w-2/5 mx-auto p-8 bg-white rounded-lg shadow"
       >
         <div className="mb-4">
           <label htmlFor="email" className="block text-gray-700">
@@ -81,25 +103,25 @@ const Login = () => {
         <div className="divider">OR</div>
         <button
           type="button"
-          className="w-full bg-red-500 text-white font-semibold py-2 px-4 rounded focus:outline-none hover:bg-red-600"
+          className="w-full font-semibold py-2 px-4 rounded focus:outline-none hover:bg-gray-300 border text-lg"
           onClick={handleGoogleLogin}
         >
           <div className="flex gap-3 items-center justify-center">
-            <FcGoogle></FcGoogle> <span>Login with Google</span>
+            <FcGoogle size={24}></FcGoogle> <span>Login with Google</span>
           </div>
         </button>
-
-        <p className="text-center mt-4">
-          Don not have an account?{" "}
-          <a href="/registration" className="text-blue-500">
-            Register here
-          </a>
+        <p className="text-red-600">{error}</p>
+        <p className="mt-4">
+          Already have an Account{" "}
+          <Link to="/registration" className="text-blue-600 font-bold">
+            Register
+          </Link>
           .
         </p>
       </form>
-      <div>
-        <h2>Hello login there....</h2>
-        <p>
+      <div className="w-full md:w-2/5 lg:w-3/5">
+        <h2 className="text-2xl font-bold mb-4">Hello, Login there....</h2>
+        <p className="text-gray-600">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, neque?
         </p>
       </div>

@@ -1,7 +1,10 @@
+import Carousel from "../../Components/Slider/Carousel";
+
+
 const Home = () => {
     return (
         <div>
-            <h1>This is home page..</h1>
+            <Carousel></Carousel>
         </div>
     );
 };

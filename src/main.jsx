@@ -4,6 +4,7 @@ import './index.css'
 import { RouterProvider } from 'react-router-dom'
 import router from './routes/routes/Routes.jsx'
 import AuthProvider from './contexts/AuthProvider'
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 
 
