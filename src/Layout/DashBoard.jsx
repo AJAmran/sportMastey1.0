@@ -1,9 +1,23 @@
 import { Link, Outlet } from "react-router-dom";
 import { MdManageHistory } from 'react-icons/md';
 import { MdOutlineManageAccounts } from 'react-icons/md';
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthProvider";
+
 
 const Dashboard = () => {
-    const role = "admin"
+  const {user} = useContext(AuthContext)
+  const [axiosSecure] = useAxiosSecure();
+
+    const { data: item = [], refetch } = useQuery(['user'], async () => {
+        const res = await axiosSecure.get(`/users/${user?.email}`)
+        return res.data;
+    })
+
+    console.log(item.role)
+
   return (
     <div className="flex h-screen">
       <div className="bg-gray-800 text-white ">
