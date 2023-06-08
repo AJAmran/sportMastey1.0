@@ -8,7 +8,7 @@ import { AuthContext } from "../../contexts/AuthProvider";
 
 const Login = () => {
   const { user, singIn, googleSignIn } = useContext(AuthContext);
-  const [error, setError] = useState('')
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -16,18 +16,18 @@ const Login = () => {
   console.log(user);
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
-    const {email, password} = data
-    console.log(email, password)
+    const { email, password } = data;
+    console.log(email, password);
     singIn(email, password)
-    .then(result=>{
-      const loggedUser = result.user;
-      console.log(loggedUser);
-      navigate(from, {replace: true});
-    })
-    .catch(error=>{
-      setError(error.message)
-    })
-    setError('')
+      .then((result) => {
+        const loggedUser = result.user;
+        console.log(loggedUser);
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
+    setError("");
   };
 
   const [passwordVisible, setPasswordVisible] = React.useState(false);
@@ -38,14 +38,29 @@ const Login = () => {
 
   const handleGoogleLogin = () => {
     googleSignIn()
-    .then(result =>{
-      const user = result.user;
-      console.log(user);
-      navigate(from, {replace: true});
-    })
-    .catch(error =>{
-      setError(error.message);
-    })
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        const storedUser = {
+          name: user.displayName,
+          email: user.email,
+        };
+        fetch("http://localhost:5000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(storedUser),
+        })
+        .then(res=> res.json())
+        .then(() => {
+            navigate(from, { replace: true })
+        })
+
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
 
   return (

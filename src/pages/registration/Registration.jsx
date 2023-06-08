@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
-import { toast } from 'react-toastify';
+import Swal from "sweetalert2";
 
 const Registration = () => {
   const [error, setError] = useState("");
@@ -24,10 +24,30 @@ const Registration = () => {
     createUser(email, password)
     .then((result) => {
         updateuserProfile(displayName, photoUrl)
-        .then(result =>{
-            const loggedUser = result.user;
-            console.log(loggedUser)
-            toast.success(`Account created Successfully`);
+        .then(() =>{
+            const storedUser = {name: displayName, email}
+            fetch('http://localhost:5000/users', {
+              method: 'POST',
+              headers: {
+                'content-type':'application/json'
+              },
+              body: JSON.stringify(storedUser)
+            })
+            .then(res => res.json())
+            .then(data =>{
+              if(data.insertedId){
+                Swal.fire({
+                  position: 'top-end',
+                  icon: 'success',
+                  title: 'Account Created Successfully',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+                const loggedUser = result.user;
+                console.log(loggedUser)
+               
+              }
+            })
         })
         .catch(error =>{
             console.log(error)
