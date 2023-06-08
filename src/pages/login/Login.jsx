@@ -5,6 +5,7 @@ import showpass from "../../assets/show.svg";
 import hidepass from "../../assets/hide.svg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const { user, singIn, googleSignIn } = useContext(AuthContext);
@@ -20,14 +21,18 @@ const Login = () => {
     console.log(email, password);
     singIn(email, password)
       .then((result) => {
-        const loggedUser = result.user;
-        console.log(loggedUser);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'User Login Successful',
+          showConfirmButton: false,
+          timer: 1500
+        })
         navigate(from, { replace: true });
       })
       .catch((error) => {
         setError(error.message);
       });
-    setError("");
   };
 
   const [passwordVisible, setPasswordVisible] = React.useState(false);

@@ -17,17 +17,17 @@ const useAxiosSecure = () => {
             if(token){
                 config.headers.Authorization = `Bearer ${token}`
             }
-            return config
+            return config;
         });
 
         axiosSecure.interceptors.response.use(
-            (res) => res,
-            async (err) =>{
-                if(err.response && (err.res.status === 401 || err.res.status === 4003)){
+            (response) => response,
+            async (error) =>{
+                if(error.response && (error.response.status === 403 || error.response.status === 401)){
                     await logOut;
                     navigate('/login');
                 }
-                return Promise.reject(err);
+                return Promise.reject(error);
             }
         );
     }, [logOut, navigate]);

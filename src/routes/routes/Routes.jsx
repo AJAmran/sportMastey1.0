@@ -6,6 +6,8 @@ import Instructors from "../../pages/instructiors/Instructors";
 import RegistrationPage from "../../pages/registration/Registration";
 import Dashboard from "../../Layout/DashBoard";
 import Manageusers from "../../pages/ManageUser/Manageusers";
+import PrivateRoute from "../privateRoute/PrivateRoute";
+import AddCalsses from "../../pages/addClasses/AddCalsses";
 
 const router = createBrowserRouter([
   {
@@ -32,11 +34,15 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <Dashboard></Dashboard>,
+    element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
     children:[
       {
         path: 'manageUsers',
         element:<Manageusers></Manageusers>
+      },
+      {
+        path: 'addClass',
+        element: <AddCalsses></AddCalsses>
       }
     ]
   }

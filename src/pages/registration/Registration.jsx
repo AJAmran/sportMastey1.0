@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 const Registration = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { createUser, logOut, updateuserProfile } = useContext(AuthContext);
+  const { createUser, updateuserProfile } = useContext(AuthContext);
 
   const {
     register,
@@ -21,45 +21,36 @@ const Registration = () => {
     const { displayName, email, password, photoUrl } = data;
     console.log(name, email, password, photoUrl);
 
-    createUser(email, password)
-    .then((result) => {
-        updateuserProfile(displayName, photoUrl)
-        .then(() =>{
-            const storedUser = {name: displayName, email}
-            fetch('http://localhost:5000/users', {
-              method: 'POST',
-              headers: {
-                'content-type':'application/json'
-              },
-              body: JSON.stringify(storedUser)
-            })
-            .then(res => res.json())
-            .then(data =>{
-              if(data.insertedId){
+    createUser(email, password).then((result) => {
+      const loggedUser = result.user;
+      console.log(loggedUser);
+      updateuserProfile(displayName, photoUrl)
+        .then(() => {
+          const storedUser = { name: displayName, email };
+          fetch("http://localhost:5000/users", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(storedUser),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.insertedId) {
                 Swal.fire({
-                  position: 'top-end',
-                  icon: 'success',
-                  title: 'Account Created Successfully',
+                  position: "top-end",
+                  icon: "success",
+                  title: "Account Created Successfully",
                   showConfirmButton: false,
-                  timer: 1500
-                })
-                const loggedUser = result.user;
-                console.log(loggedUser)
-               
+                  timer: 1500,
+                });
+                navigate("/");
               }
-            })
+            });
         })
-        .catch(error =>{
-            console.log(error)
-        })
-        navigate("/");
-    })
-    .catch(error =>{
-        setError(error.message);
-    })
-    setError(' ')
+        .catch((error) => console.log(error));
+    });
   };
-
   const password = watch("password");
 
   return (
