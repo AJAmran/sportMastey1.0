@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../contexts/AuthProvider";
+import Swal from "sweetalert2";
 
 const imgToken = import.meta.env.VITE_IMG_TOKEN;
 
@@ -35,6 +36,7 @@ const AddCalsses = () => {
             availableSeats: parseFloat(availableSeats),
             price: parseFloat(price),
             image: imgURL,
+            status: "pending"
           };
           console.log(classInfo);
           fetch('http://localhost:5000/classes', {
@@ -44,14 +46,28 @@ const AddCalsses = () => {
             },
             body: JSON.stringify(classInfo)
           })
+          .then(res => res.json())
+          .then(cls =>{
+            if(cls.insertedId
+              ){
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Class added Successfully",
+                  showConfirmButton: false,
+                  timer: 1000,
+                });
+              }
+          })
         }
       });
   };
 
   return (
-    <form
+    <div className="ml-64">
+      <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-md mx-auto bg-white shadow-lg p-6 rounded-md border-2 border-gray-800 mt-4"
+      className="max-w-md mx-auto bg-white shadow-lg p-6 rounded-md border-2 border-gray-800 mt-4 ml"
     >
       <h2 className="text-2xl mb-6 text-center">Add Class</h2>
 
@@ -136,6 +152,7 @@ const AddCalsses = () => {
         Add
       </button>
     </form>
+    </div>
   );
 };
 

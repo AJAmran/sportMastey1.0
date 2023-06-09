@@ -58,7 +58,7 @@ const ManageUsers = () => {
   };
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto ml-64">
       <div className="py-2 align-middle inline-block min-w-full sm:px-6 md:px-8 lg:px-10">
         <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
           <table className="min-w-full divide-y divide-gray-200">

@@ -8,6 +8,7 @@ import Dashboard from "../../Layout/DashBoard";
 import Manageusers from "../../pages/ManageUser/Manageusers";
 import PrivateRoute from "../privateRoute/PrivateRoute";
 import AddCalsses from "../../pages/addClasses/AddCalsses";
+import ManageClasses from "../../pages/manageClasses/ManageClasses";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: 'addClass',
         element: <AddCalsses></AddCalsses>
+      },
+      {
+        path: 'manageClasses',
+        element: <ManageClasses></ManageClasses>
       }
     ]
   }

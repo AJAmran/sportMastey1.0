@@ -38,7 +38,7 @@ const Dashboard = () => {
 
   return (
     <div className="flex h-screen">
-    <div className="bg-gray-800 text-white">
+    <div className="bg-gray-800 text-white fixed h-full  w-[215px]">
       <nav className="p-4">
         <ul>
         <li className="py-2 px-4">
@@ -56,7 +56,7 @@ const Dashboard = () => {
             <>
               <li className="py-2 px-4">
                 <Link
-                  to="/dashboard/#"
+                  to="/dashboard/manageClasses"
                   className="block text-gray-300 hover:text-white"
                 >
                   <span className="flex gap-3">
