@@ -37,7 +37,7 @@ const Classes = () => {
   }, [axiosSecure, user, loading]);
 
   if (loading || isLoading) {
-    return <span>Loading.......</span>;
+    return <span className="loading loading-bars loading-lg"></span>;
   }
 
   const handleSelect = (item) => {

@@ -10,6 +10,7 @@ import PrivateRoute from "../privateRoute/PrivateRoute";
 import AddCalsses from "../../pages/addClasses/AddCalsses";
 import ManageClasses from "../../pages/manageClasses/ManageClasses";
 import Classes from "../../pages/classes/Classes";
+import SelectedClass from "../../pages/selectedClass/SelectedClass";
 
 const router = createBrowserRouter([
   {
@@ -56,7 +57,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'selectedClass',
-      
+        element: <SelectedClass></SelectedClass>
       }
     ]
   }
