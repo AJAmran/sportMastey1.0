@@ -49,6 +49,7 @@ const Login = () => {
         const storedUser = {
           name: user.displayName,
           email: user.email,
+          photoUrl: user.photoUrl
         };
         fetch("http://localhost:5000/users", {
           method: "POST",

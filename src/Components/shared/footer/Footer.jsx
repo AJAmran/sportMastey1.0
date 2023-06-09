@@ -1,10 +1,14 @@
-import logo from '../../../assets/logo.png'
-
+import logo from "../../../assets/logo.png";
+import {
+  FaFacebookSquare,
+  FaInstagramSquare,
+  FaYoutube,
+} from "react-icons/fa";
 
 const Footer = () => {
   return (
     <footer className="bg-gray-800 text-gray-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="container mx-auto py-6 px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           <div className="flex items-center justify-center sm:col-span-2 md:col-span-1">
             <img
@@ -22,6 +26,35 @@ const Footer = () => {
             <h3 className="text-xl font-bold mb-4">Address</h3>
             <p>123 Baized Road</p>
             <p>Nasirabad, Chittagong, Bangladesh</p>
+          </div>
+          <div className="text-center md:text-left">
+            <h3 className="text-xl font-bold mb-4">Follow Us</h3>
+            <div className="flex justify-center md:justify-start">
+              <a
+                href="https://www.facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-white mr-4"
+              >
+                <FaFacebookSquare size={24}></FaFacebookSquare>
+              </a>
+              <a
+                href="https://www.instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-white mr-4"
+              >
+                <FaInstagramSquare size={24}></FaInstagramSquare>
+              </a>
+              <a
+                href="https://www.youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-white mr-4"
+              >
+                <FaYoutube size={24}></FaYoutube>
+              </a>
+            </div>
           </div>
         </div>
         <div className="mt-8 text-center">

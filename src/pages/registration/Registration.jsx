@@ -26,7 +26,7 @@ const Registration = () => {
       console.log(loggedUser);
       updateuserProfile(displayName, photoUrl)
         .then(() => {
-          const storedUser = { name: displayName, email };
+          const storedUser = { name: displayName, email, photoUrl };
           fetch("http://localhost:5000/users", {
             method: "POST",
             headers: {

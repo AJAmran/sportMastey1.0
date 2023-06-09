@@ -3,7 +3,7 @@ import Carousel from "../../Components/Slider/Carousel";
 
 const Home = () => {
     return (
-        <div>
+        <div className="container mx-auto px-4">
             <Carousel></Carousel>
         </div>
     );
