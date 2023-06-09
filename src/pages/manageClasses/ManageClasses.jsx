@@ -27,7 +27,7 @@ const ManageClasses = () => {
 
   const denyClassItem = useMutation(
     (classItem) =>
-      axiosSecure.put(`/classes/${classItem._id}`, { status: "Pending" }),
+      axiosSecure.put(`/classes/${classItem._id}`, { status: "Denied" }),
     mutationOptions
   );
 
@@ -41,7 +41,7 @@ const ManageClasses = () => {
       },
       showCancelButton: true,
     });
-  
+
     if (feedback) {
       try {
         // Send feedback to the server
@@ -149,7 +149,7 @@ const ManageClasses = () => {
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{classItem.price}</div>
+                  <div className="text-sm text-gray-900">${classItem.price}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
@@ -166,15 +166,27 @@ const ManageClasses = () => {
                   <div className="flex items-center space-x-2">
                     <button
                       onClick={() => handleApprove(classItem)}
-                      className="px-2 py-1 text-xs font-semibold rounded-lg bg-blue-500 text-white hover:bg-blue-600"
-                      disabled={approveClassItem.isLoading}
+                      className={`px-2 py-1 text-xs font-semibold rounded-lg ${
+                        classItem.status === "Approved" || classItem.status =="Denied"
+                          ? "bg-gray-400 text-gray-800 cursor-not-allowed"
+                          : "bg-blue-500 text-white hover:bg-blue-600"
+                      }`}
+                      disabled={
+                        approveClassItem.isLoading || classItem.status === "Approved"
+                      }
                     >
                       Approve
                     </button>
                     <button
                       onClick={() => handleDeny(classItem)}
-                      className="px-2 py-1 text-xs font-semibold rounded-lg bg-red-500 text-white hover:bg-red-600"
-                      disabled={denyClassItem.isLoading}
+                      className={`px-2 py-1 text-xs font-semibold rounded-lg ${
+                        classItem.status === "Denied" || classItem.status === "Approved"
+                          ? "bg-gray-400 text-gray-800 cursor-not-allowed"
+                          : "bg-red-500 text-white hover:bg-red-600"
+                      }`}
+                      disabled={
+                        denyClassItem.isLoading || classItem.status === "Denied" 
+                      }
                     >
                       Deny
                     </button>
