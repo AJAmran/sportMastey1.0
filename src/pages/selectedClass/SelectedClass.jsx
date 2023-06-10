@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const SelectedClass = () => {
   const [selectedClasses, setSelectedClasses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const selectedItems = JSON.parse(localStorage.getItem("selectedItems")) || [];
+  const selectedItems = useMemo(() => JSON.parse(localStorage.getItem("selectedItems")) || [], []);
 
   const [axiosSecure] = useAxiosSecure();
 
@@ -38,10 +38,6 @@ const SelectedClass = () => {
     setSelectedClasses((prevClasses) =>
       prevClasses.filter((classItem) => classItem._id !== classId)
     );
-  };
-
-  const handlePay = () => {
-    // Implement your payment logic here
   };
 
   if (isLoading) {
@@ -78,12 +74,14 @@ const SelectedClass = () => {
               >
                 Delete
               </button>
-              <button
+              {/* <button
                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition-colors duration-300"
                 onClick={handlePay}
               >
                 Pay
-              </button>
+              </button> */}
+              <Link to={`/dashboard/payment/${classItem._id}`} className="bg-blue-500 hover:bg-blue-600 text-white px-4 pt-1 pb-2 rounded-full transition-colors duration-300">
+              pya</Link>
             </div>
           </div>
         ))}
