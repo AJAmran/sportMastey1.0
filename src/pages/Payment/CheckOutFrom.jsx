@@ -85,6 +85,11 @@ const CheckOutFrom = ({ price, classData }) => {
         if (res.data.insertedId) {
           // Invoke the callback function to remove the class ID
           handleRemoveFromLocalStorage(); // Remove the class ID from local storage
+
+          // Update the available seats in the class
+          axiosSecure.put(`/classes/${classData?._id}/reduce-seats`).then((res) => {
+            console.log("Seats reduced successfully");
+          });
         }
       });
     }
