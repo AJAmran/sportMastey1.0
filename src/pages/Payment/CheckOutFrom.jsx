@@ -87,6 +87,13 @@ const CheckOutFrom = ({ price, classData }) => {
           handleRemoveFromLocalStorage(); // Remove the class ID from local storage
 
           // Update the available seats in the class
+          if (classData && classData.studentNumber !== undefined) {
+            // If studentNumber field is available, increase its value
+            classData.studentNumber++;
+          } else {
+            // If studentNumber field is not available, create it and set initial value to 1
+            classData.studentNumber = 1;
+          }
           axiosSecure.put(`/classes/${classData?._id}/reduce-seats`).then((res) => {
             console.log("Seats reduced successfully");
           });

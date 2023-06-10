@@ -28,7 +28,7 @@ const EnrolledClass = () => {
             {enrolledClass.length > 0 ? (
                 <div>
                     {enrolledClass.map((enrollment, index) => (
-                        <div key={enrollment._id} className="flex border border-gray-800 p-4 mb-4">
+                        <div key={enrollment._id} className="flex border border-gray-800 p-4 mb-4 rounded-lg">
                             <div className="flex-1">
                                 <h2 className="text-xl font-bold">{enrollment.name}</h2>
                                 <p>Email: {enrollment.email}</p>
