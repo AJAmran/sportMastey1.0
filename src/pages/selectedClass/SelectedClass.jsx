@@ -11,23 +11,20 @@ const SelectedClass = () => {
 
   const [axiosSecure] = useAxiosSecure();
 
-  const {
-    data: classes = [],
-    isLoading: classesLoading,
-    refetch,
-  } = useQuery(["classes"], async () => {
-    const res = await axiosSecure.get("/classes");
-    return res.data;
-  });
+  const { data: classes = [], isLoading: classesLoading, refetch } = useQuery(
+    ["classes"],
+    async () => {
+      const res = await axiosSecure.get("/classes");
+      return res.data;
+    }
+  );
 
   useEffect(() => {
     refetch();
   }, [selectedItems, refetch]);
 
   useEffect(() => {
-    const filteredClasses = classes.filter((classItem) =>
-      selectedItems.includes(classItem._id)
-    );
+    const filteredClasses = classes.filter((classItem) => selectedItems.includes(classItem._id));
     setSelectedClasses(filteredClasses);
     setIsLoading(classesLoading);
   }, [classes, classesLoading, selectedItems]);
@@ -50,38 +47,35 @@ const SelectedClass = () => {
 
   return (
     <div className="ml-[215px]">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Hello Baburea.........</h2>
+      <h2 className="text-2xl font-bold mb-4">Your Selected Classes</h2>
 
       <div>
-        <h3 className="text-lg font-semibold mb-4">Selected Classes:</h3>
         {selectedClasses.map((classItem) => (
           <div
             key={classItem._id}
-            className="bg-white rounded-lg shadow-md p-4 mb-4 flex items-center"
+            className="bg-white p-2 rounded-lg mb-4 flex flex-col sm:flex-row items-center justify-between border border-gray-800"
           >
-            <div className="w-48 h-48 overflow-hidden rounded-lg mr-4">
+            <div className="w-full sm:w-48 h-48 sm:h-full flex-shrink-0 mb-4 sm:mb-0">
               <img src={classItem.image} alt="" className="object-cover h-full w-full" />
             </div>
-            <div>
+            <div className="flex-grow mb-4 sm:mb-0 sm:ml-4">
               <h4 className="text-xl font-semibold text-gray-800">{classItem.className}</h4>
               <p className="text-gray-600 mb-2">Instructor: {classItem.instructorName}</p>
               <p className="text-gray-600">Price: ${classItem.price}</p>
             </div>
-            <div className="ml-auto">
+            <div className="flex items-center">
               <button
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full mr-2 transition-colors duration-300"
+                className="border border-gray-800 hover:bg-red-600 px-4 py-1 rounded-full transition-colors duration-300"
                 onClick={() => handleDelete(classItem._id)}
               >
                 Delete
               </button>
-              {/* <button
-                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition-colors duration-300"
-                onClick={handlePay}
+              <Link
+                to={`/dashboard/payment/${classItem._id}`}
+                className="bg-gray-800 hover:bg-blue-600 text-white px-4 py-1 rounded-full ml-2 transition-colors duration-300"
               >
                 Pay
-              </button> */}
-              <Link to={`/dashboard/payment/${classItem._id}`} className="bg-blue-500 hover:bg-blue-600 text-white px-4 pt-1 pb-2 rounded-full transition-colors duration-300">
-              pya</Link>
+              </Link>
             </div>
           </div>
         ))}

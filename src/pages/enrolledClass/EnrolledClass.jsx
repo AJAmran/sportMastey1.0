@@ -24,11 +24,11 @@ const EnrolledClass = () => {
   
     return (
         <div className="ml-[215px]">
-            <h1 className="text-center text-xl font-bold my-4">Your Enrolled Classes..</h1>
+            <h1 className="text-2xl font-bold mb-4">Your Enrolled Classes..</h1>
             {enrolledClass.length > 0 ? (
                 <div>
                     {enrolledClass.map((enrollment, index) => (
-                        <div key={enrollment._id} className="flex border border-gray-300 p-4 mb-4">
+                        <div key={enrollment._id} className="flex border border-gray-800 p-4 mb-4">
                             <div className="flex-1">
                                 <h2 className="text-xl font-bold">{enrollment.name}</h2>
                                 <p>Email: {enrollment.email}</p>

@@ -27,7 +27,7 @@ const PaymentHistory = () => {
         <div>
           <h2 className="text-2xl font-bold mb-4">Payment Information</h2>
           {paymentInfo.map((payment, index) => (
-            <div key={payment._id} className="bg-white shadow-lg rounded-lg p-6 mb-4">
+            <div key={payment._id} className="bg-white shadow-lg rounded-lg p-6 mb-4 border border-gray-800">
               <p className="text-gray-700">Payment ID: {payment.transationId}</p>
               <p className="text-gray-700">Amount: {payment.price}</p>
               <p className="text-gray-700">Date: {new Date(payment.date).toLocaleString()}</p>
