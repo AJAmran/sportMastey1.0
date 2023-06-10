@@ -67,7 +67,7 @@ const [processing, setProcessing] = useState(false)
         email: user?.email,
         transationId: paymentIntent.id,
         price,
-        date: new Date(),
+        date: new Date().toISOString(),
         name: classData?.className,
         img: classData?.image
        }

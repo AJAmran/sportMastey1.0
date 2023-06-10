@@ -1,6 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 import { MdManageHistory } from "react-icons/md";
-import { FaHome, FaBuffer, FaLaptopCode } from "react-icons/fa";
+import { FaHome, FaBuffer, FaLaptopCode, FaHistory } from "react-icons/fa";
 import { MdOutlineManageAccounts } from "react-icons/md";
 import { AiFillHome } from "react-icons/ai";
 import { BiSelectMultiple } from "react-icons/bi";
@@ -127,6 +127,17 @@ const Dashboard = () => {
                   <span className="flex gap-3">
                     <FaLaptopCode size={24} />
                     My Enrolled Classes
+                  </span>
+                </Link>
+              </li>
+              <li className="py-2 px-4">
+                <Link
+                  to="/dashboard/paymentHistory"
+                  className="block text-gray-300 hover:text-white"
+                >
+                  <span className="flex gap-3">
+                    <FaHistory size={24} />
+                    Payment History
                   </span>
                 </Link>
               </li>
