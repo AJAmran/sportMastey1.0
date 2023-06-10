@@ -3,15 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
 
+
+
 const SelectedClass = () => {
   const [selectedClasses, setSelectedClasses] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
   const selectedItems = useMemo(() => JSON.parse(localStorage.getItem("selectedItems")) || [], []);
-
   const [axiosSecure] = useAxiosSecure();
 
-  const { data: classes = [], isLoading: classesLoading, refetch } = useQuery(
+  const { data: classes = [], isLoading: classesLoading } = useQuery(
     ["classes"],
     async () => {
       const res = await axiosSecure.get("/classes");
@@ -20,14 +19,9 @@ const SelectedClass = () => {
   );
 
   useEffect(() => {
-    refetch();
-  }, [selectedItems, refetch]);
-
-  useEffect(() => {
     const filteredClasses = classes.filter((classItem) => selectedItems.includes(classItem._id));
     setSelectedClasses(filteredClasses);
-    setIsLoading(classesLoading);
-  }, [classes, classesLoading, selectedItems]);
+  }, [classes, selectedItems, setSelectedClasses]);
 
   const handleDelete = (classId) => {
     const updatedSelectedItems = selectedItems.filter((itemId) => itemId !== classId);
@@ -36,6 +30,10 @@ const SelectedClass = () => {
       prevClasses.filter((classItem) => classItem._id !== classId)
     );
   };
+
+  const isLoading = useMemo(() => {
+    return classesLoading || selectedItems.length === 0;
+  }, [classesLoading, selectedItems.length]);
 
   if (isLoading) {
     return (
