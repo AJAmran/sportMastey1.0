@@ -1,17 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../contexts/AuthProvider";
 import Swal from "sweetalert2";
+import { ThemeContext } from '../../contexts/ThemeContext';
 
 const Classes = () => {
   const { user, loading } = useContext(AuthContext);
   const [axiosSecure] = useAxiosSecure();
   const [traffic, setTraffic] = useState([]);
+  const { isDarkMode } = useContext(ThemeContext);
+
   const {
     data: classes = [],
     isLoading,
-    refetch,
   } = useQuery(["users"], async () => {
     const res = await axiosSecure.get("/classes");
     return res.data;
@@ -68,7 +70,7 @@ const Classes = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 mb-5">
+    <div className={`container mx-auto px-4 mb-5 ${isDarkMode ? 'bg-gray-900' : 'white'}`}>
       <h1 className="text-3xl font-bold mb-6">Approved Classes</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         {approvedClass.map((item, index) => (

@@ -4,33 +4,30 @@ import { CiDark } from 'react-icons/ci';
 import { FiSun } from 'react-icons/fi';
 import logo from '../../../assets/logo.png'
 import { AuthContext } from '../../../contexts/AuthProvider';
+import { ThemeContext } from '../../../contexts/ThemeContext';
 
 const Navbar = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { user, logOut } = useContext(AuthContext);
+  const { isDarkMode, toggleTheme } = useContext(ThemeContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
- const {user, logOut} = useContext(AuthContext)
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLogOut = () =>{
+  const handleLogOut = () => {
     logOut()
-    .then(result=>{
-      const user = result.user;
-      console.log(user)
-    })
-    .catch(error =>{
-      console.log(error)
-    })
-  }
+      .then(result => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   return (
-    <nav className="bg-gray-800">
+    <nav className={`bg-gray-800 ${isDarkMode ? 'dark' : ''}`}>
       <div className="container mx-auto px-4 py-2">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -47,76 +44,68 @@ const Navbar = () => {
               <NavLink
                 exact
                 to="/"
-                style={({ isActive }) => ({
-                  fontWeight: isActive ? "bold" : "",
-                  color: isActive ? "gray" : "white",
-                })}
+                activeClassName="font-bold text-gray-500"
                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
               >
                 Home
               </NavLink>
               <NavLink
                 to="/instructors"
-                style={({ isActive }) => ({
-                    fontWeight: isActive ? "bold" : "",
-                    color: isActive ? "gray" : "white",
-                })}
+                activeClassName="font-bold text-gray-500"
                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
               >
                 Instructors
               </NavLink>
               <NavLink
                 to="/classes"
-                style={({ isActive }) => ({
-                  fontWeight: isActive ? "bold" : "",
-                  color: isActive ? "gray" : "white",
-                })}
+                activeClassName="font-bold text-gray-500"
                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
               >
                 Classes
               </NavLink>
-              <NavLink
-                to="/dashboard"
-                style={({ isActive }) => ({
-                  fontWeight: isActive ? "bold" : "",
-                  color: isActive ? "gray" : "white",
-                })}
-                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Dashboard
-              </NavLink>
+              {user?.email && (
+                <NavLink
+                  to="/dashboard"
+                  activeClassName="font-bold text-gray-500"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Dashboard
+                </NavLink>
+              )}
             </div>
           </div>
           <div className="hidden sm:flex items-center gap-4">
-            <button className="mr-2 text-white" onClick={toggleDarkMode}>
-              <CiDark />
-            </button>
-            <button onClick={toggleDarkMode} className='text-white'>
-              <FiSun></FiSun>
-            </button>
-            {
-                user?.email ? <>
-                <div className="ml-2">
-                <img
-                  src={user?.photoURL} 
-                  alt="Profile"
-                  className="h-8 rounded-full"
-                />
-              </div>
-              <button onClick={handleLogOut} className='bg-[#006FA8] btn-sm px-2 text-white rounded text-sm'>Log Out</button>
-                </>
-              :
-              <NavLink
-              to="/login"
-              style={({ isActive }) => ({
-                fontWeight: isActive ? "bold" : "",
-                color: isActive ? "gray" : "white",
-              })}
-              className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            <button
+              onClick={toggleTheme}
+              className="text-white"
             >
-              Login
-            </NavLink>
-            }
+              {isDarkMode ? <CiDark /> : <FiSun />}
+            </button>
+            {user?.email ? (
+              <>
+                <div className="ml-2">
+                  <img
+                    src={user?.photoURL} 
+                    alt="Profile"
+                    className="h-8 rounded-full"
+                  />
+                </div>
+                <button
+                  onClick={handleLogOut}
+                  className="bg-[#006FA8] btn-sm px-2 text-white rounded text-sm"
+                >
+                  Log Out
+                </button>
+              </>
+            ) : (
+              <NavLink
+                to="/login"
+                activeClassName="font-bold text-gray-500"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Login
+              </NavLink>
+            )}
           </div>
           <div className="flex sm:hidden">
             <button
@@ -147,52 +136,51 @@ const Navbar = () => {
           <NavLink
             exact
             to="/"
-            style={({ isActive }) => ({
-              fontWeight: isActive ? "bold" : "",
-              color: isActive ? "gray" : "white",
-            })}
+            activeClassName="font-bold text-gray-500"
             className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
           >
             Home
           </NavLink>
           <NavLink
             to="/instructors"
-            style={({ isActive }) => ({
-              fontWeight: isActive ? "bold" : "",
-              color: isActive ? "gray" : "white",
-            })}
+            activeClassName="font-bold text-gray-500"
             className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
           >
             Instructors
           </NavLink>
           <NavLink
             to="/classes"
-            style={({ isActive }) => ({
-              fontWeight: isActive ? "bold" : "",
-              color: isActive ? "gray" : "white",
-            })}
+            activeClassName="font-bold text-gray-500"
             className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
           >
             Classes
           </NavLink>
-          <NavLink
-            to="/dashboard"
-            style={({ isActive }) => ({
-              fontWeight: isActive ? "bold" : "",
-              color: isActive ? "gray" : "white",
-            })}
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Dashboard
-          </NavLink>
-                <div className="ml-2">
-                <img
-                  src={user?.photoURL} 
-                  alt="Profile"
-                  className="h-8 rounded-full"
-                />
-              </div>
-              <button onClick={handleLogOut} className='bg-[#006FA8] btn-sm px-2 text-white rounded text-sm'>Log Out</button>
+          {user?.email && (
+            <NavLink
+              to="/dashboard"
+              activeClassName="font-bold text-gray-500"
+              className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            >
+              Dashboard
+            </NavLink>
+          )}
+          {user?.email && (
+            <div className="ml-2">
+              <img
+                src={user?.photoURL} 
+                alt="Profile"
+                className="h-8 rounded-full"
+              />
+            </div>
+          )}
+          {user?.email && (
+            <button
+              onClick={handleLogOut}
+              className="bg-[#006FA8] btn-sm px-2 text-white rounded text-sm"
+            >
+              Log Out
+            </button>
+          )}
         </div>
       </div>
     </nav>

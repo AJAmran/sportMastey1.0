@@ -18,15 +18,15 @@ const Registration = () => {
 
   const onSubmit = (data) => {
     console.log(data); // Handle form submission logic here
-    const { displayName, email, password, photoUrl } = data;
-    console.log(name, email, password, photoUrl);
+    const { displayName, email, password, photoURL } = data;
+    console.log(name, email, password, photoURL);
 
     createUser(email, password).then((result) => {
       const loggedUser = result.user;
       console.log(loggedUser);
-      updateuserProfile(displayName, photoUrl)
+      updateuserProfile(displayName, photoURL)
         .then(() => {
-          const storedUser = { name: displayName, email, photoUrl };
+          const storedUser = { name: displayName, email, photoURL };
           fetch("http://localhost:5000/users", {
             method: "POST",
             headers: {
@@ -138,13 +138,13 @@ const Registration = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="photoUrl" className="block mb-2">
+          <label htmlFor="photoURL" className="block mb-2">
             Photo URL
           </label>
           <input
             type="text"
-            id="photoUrl"
-            {...register("photoUrl")}
+            id="photoURL"
+            {...register("photoURL")}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
           />
         </div>
