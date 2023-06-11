@@ -3,18 +3,18 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../contexts/AuthProvider";
 import Swal from "sweetalert2";
-import { ThemeContext } from '../../contexts/ThemeContext';
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { FaShoppingCart } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Classes = () => {
   const { user, loading } = useContext(AuthContext);
   const [axiosSecure] = useAxiosSecure();
   const [traffic, setTraffic] = useState([]);
   const { isDarkMode } = useContext(ThemeContext);
+  const [selectedItemsLength, setSelectedItemsLength] = useState(0);
 
-  const {
-    data: classes = [],
-    isLoading,
-  } = useQuery(["users"], async () => {
+  const { data: classes = [], isLoading: isClassesLoading } = useQuery(["users"], async () => {
     const res = await axiosSecure.get("/classes");
     return res.data;
   });
@@ -33,12 +33,15 @@ const Classes = () => {
       }
     };
 
+    const updatedSelectedItems = JSON.parse(localStorage.getItem("selectedItems")) || [];
+    setSelectedItemsLength(updatedSelectedItems.length);
+
     if (!loading && user) {
       fetchUserData();
     }
   }, [axiosSecure, user, loading]);
 
-  if (loading || isLoading) {
+  if (loading || isClassesLoading) {
     return <span className="loading loading-bars loading-lg"></span>;
   }
 
@@ -53,25 +56,39 @@ const Classes = () => {
       });
       return;
     }
-    
-    const existingSelectedItems = JSON.parse(localStorage.getItem("selectedItems")) || [];
+
+    const existingSelectedItems =
+      JSON.parse(localStorage.getItem("selectedItems")) || [];
     const isSelected = existingSelectedItems.includes(item._id);
-    
+
     let updatedSelectedItems;
-    
+
     if (isSelected) {
-      // Item is already selected, no need to remove or duplicate
       return;
     } else {
       updatedSelectedItems = [...existingSelectedItems, item._id];
     }
-    
     localStorage.setItem("selectedItems", JSON.stringify(updatedSelectedItems));
+    setSelectedItemsLength(updatedSelectedItems.length);
   };
 
+  console.log(approvedClass);
+
   return (
-    <div className={`container mx-auto px-4 mb-5 ${isDarkMode ? 'bg-gray-900' : 'white'}`}>
-      <h1 className="text-3xl font-bold mb-6">Approved Classes</h1>
+    <div
+      className={`container mx-auto px-4 mb-5 pt-5 ${
+        isDarkMode ? "bg-gray-900" : "white"
+      }`}
+    >
+      <div className="flex justify-between">
+        <h1 className="text-2xl font-bold mb-6">
+          Explore Our Available Classes
+        </h1>
+        <Link to="/dashboard/selectedClass" className="btn">
+          <FaShoppingCart></FaShoppingCart>
+          <div className="badge">+{selectedItemsLength}</div>
+        </Link>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         {approvedClass.map((item, index) => (
           <div

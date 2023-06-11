@@ -14,7 +14,7 @@ const Instructors = () => {
   }
 
   return (
-    <div className='p-5'>
+    <div className='p-5 min-h-screen container mx-auto px-4 mb-5'>
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {instructors.map(instructor => (
           <div key={instructor.id} className="bg-white rounded-lg shadow-md p-4">

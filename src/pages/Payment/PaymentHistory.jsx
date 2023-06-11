@@ -3,7 +3,7 @@ import { AuthContext } from '../../contexts/AuthProvider';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const PaymentHistory = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const [paymentInfo, setPaymentInfo] = useState([]);
   const [axiosSecure] = useAxiosSecure();
 
@@ -19,6 +19,10 @@ const PaymentHistory = () => {
 
     fetchPaymentInfo();
   }, [axiosSecure, user]);
+
+  if (loading) {
+    return <span className="loading loading-bars loading-lg"></span>;
+  }
 
   return (
     <div className="ml-[230px]">

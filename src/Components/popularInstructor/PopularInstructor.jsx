@@ -11,8 +11,8 @@ const PopularInstructor = () => {
   const instructors = users.filter(user => user.role === 'instructor').slice(0, 6);
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">This is the Popular Instructor Section...</h2>
+    <div className="">
+      <h2 className="text-2xl font-bold mb-4 text-center my-10">Our Popular Instructor </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {instructors.map((instructor) => (
           <div

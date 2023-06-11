@@ -15,6 +15,7 @@ import Payment from "../../pages/Payment/Payment";
 import PaymentHistory from "../../pages/Payment/PaymentHistory";
 import EnrolledClass from "../../pages/enrolledClass/EnrolledClass";
 import InstructorClasses from "../../pages/instructiors/InstructorClasses";
+import AdminRoute from "../privateRoute/AdminRoute";
 
 const router = createBrowserRouter([
   {
@@ -49,7 +50,7 @@ const router = createBrowserRouter([
     children:[
       {
         path: 'manageUsers',
-        element:<Manageusers></Manageusers>
+        element: <AdminRoute><Manageusers></Manageusers></AdminRoute>
       },
       {
         path: 'addClass',
@@ -57,7 +58,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'manageClasses',
-        element: <ManageClasses></ManageClasses>
+        element: <AdminRoute><ManageClasses></ManageClasses></AdminRoute>
       },
       {
         path: 'selectedClass',

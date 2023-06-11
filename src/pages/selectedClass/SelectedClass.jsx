@@ -1,47 +1,31 @@
 import { useState, useEffect, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
-
-
 
 const SelectedClass = () => {
   const [selectedClasses, setSelectedClasses] = useState([]);
-  const selectedItems = useMemo(() => JSON.parse(localStorage.getItem("selectedItems")) || [], []);
-  const [axiosSecure] = useAxiosSecure();
-
-  const { data: classes = [], isLoading: classesLoading } = useQuery(
-    ["classes"],
-    async () => {
-      const res = await axiosSecure.get("/classes");
-      return res.data;
-    }
+  const [classes, setClasses] = useState([]);
+  const [selectedItems, setSelectedItems] = useState(
+    useMemo(() => JSON.parse(localStorage.getItem("selectedItems")) || [], [])
   );
 
   useEffect(() => {
-    const filteredClasses = classes.filter((classItem) => selectedItems.includes(classItem._id));
-    setSelectedClasses(filteredClasses);
-  }, [classes, selectedItems, setSelectedClasses]);
+    fetch("http://localhost:5000/classes")
+      .then((res) => res.json())
+      .then((data) => {
+        setClasses(data);
+        const filteredClasses = data.filter((classItem) => selectedItems.includes(classItem._id));
+        setSelectedClasses(filteredClasses);
+      });
+  }, [selectedItems]);
 
   const handleDelete = (classId) => {
     const updatedSelectedItems = selectedItems.filter((itemId) => itemId !== classId);
     localStorage.setItem("selectedItems", JSON.stringify(updatedSelectedItems));
+    setSelectedItems(updatedSelectedItems);
     setSelectedClasses((prevClasses) =>
       prevClasses.filter((classItem) => classItem._id !== classId)
     );
   };
-
-  const isLoading = useMemo(() => {
-    return classesLoading || selectedItems.length === 0;
-  }, [classesLoading, selectedItems.length]);
-
-  if (isLoading) {
-    return (
-      <div className="ml-[215px] flex items-center justify-center h-screen">
-        <span className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900"></span>
-      </div>
-    );
-  }
 
   return (
     <div className="ml-[215px]">

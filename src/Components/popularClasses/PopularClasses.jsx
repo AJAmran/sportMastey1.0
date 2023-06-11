@@ -11,8 +11,8 @@ const PopularClasses = () => {
   const sortedClasses = classes.sort((a, b) => b.studentNumber - a.studentNumber).slice(0, 6);
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">This is the Popular Classes Section...</h2>
+    <div className="">
+      <h2 className="text-2xl font-bold mb-4 text-center my-10">Top Classes</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {sortedClasses.map((classItem) => (
           <div
