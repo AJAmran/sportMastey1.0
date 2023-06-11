@@ -3,6 +3,7 @@ import Carousel from "../../Components/Slider/Carousel";
 import PopularClasses from "../../Components/popularClasses/PopularClasses";
 import PopularInstructor from "../../Components/popularInstructor/PopularInstructor";
 import { ThemeContext } from '../../contexts/ThemeContext';
+import Accordion from '../../Components/accordian/Accordion';
 
 const Home = () => {
   const { isDarkMode } = useContext(ThemeContext);
@@ -12,6 +13,7 @@ const Home = () => {
       <Carousel />
       <PopularClasses />
       <PopularInstructor />
+      <Accordion></Accordion>
     </div>
   );
 };
