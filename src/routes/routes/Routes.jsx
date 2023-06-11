@@ -16,11 +16,15 @@ import PaymentHistory from "../../pages/Payment/PaymentHistory";
 import EnrolledClass from "../../pages/enrolledClass/EnrolledClass";
 import InstructorClasses from "../../pages/instructiors/InstructorClasses";
 import AdminRoute from "../privateRoute/AdminRoute";
+import InstructorProtectedRoute from "../privateRoute/InstructorProtectedRoute";
+import StudentProtectedRoute from "../privateRoute/StudentProtectedRoute";
+import ErrorPage from "../../Components/ErrorPage/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",
@@ -54,7 +58,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'addClass',
-        element: <AddCalsses></AddCalsses>
+        element: <InstructorProtectedRoute><AddCalsses></AddCalsses></InstructorProtectedRoute>
       },
       {
         path: 'manageClasses',
@@ -62,7 +66,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'selectedClass',
-        element: <SelectedClass></SelectedClass>
+        element: <StudentProtectedRoute><SelectedClass></SelectedClass></StudentProtectedRoute>
       },
       {
         path: 'payment/:id',
@@ -70,15 +74,15 @@ const router = createBrowserRouter([
       }, 
       {
         path: 'paymentHistory',
-        element: <PaymentHistory></PaymentHistory>
+        element: <StudentProtectedRoute><PaymentHistory></PaymentHistory></StudentProtectedRoute>
       }, 
       {
         path: 'myEnrolledClass',
-        element: <EnrolledClass></EnrolledClass>
+        element: <StudentProtectedRoute><EnrolledClass></EnrolledClass></StudentProtectedRoute>
       },
       {
         path: 'myClass',
-        element: <InstructorClasses></InstructorClasses>
+        element: <InstructorProtectedRoute><InstructorClasses></InstructorClasses></InstructorProtectedRoute>
       }
     ]
   }

@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 import Swal from "sweetalert2";
+import Lottie from "lottie-react-web";
+import animationData from "../../assets/rrrrrrrr.json";
 
 const Registration = () => {
   const [error, setError] = useState("");
@@ -26,7 +28,7 @@ const Registration = () => {
       console.log(loggedUser);
       updateuserProfile(displayName, photoURL)
         .then(() => {
-          const storedUser = { name: displayName, email, photoURL };
+          const storedUser = { name: displayName, email, photoURL, role: "student"};
           fetch("http://localhost:5000/users", {
             method: "POST",
             headers: {
@@ -57,8 +59,9 @@ const Registration = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex gap-6 flex-col md:flex-row min-h-screen items-center justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mx-auto border p-3 w-full md:w-3/5 lg:w-2/5 rounded-lg"
+        className="mx-auto p-3 w-full md:w-3/5 lg:w-2/5 rounded-lg border border-gray-800"
       >
+        <h1 className="text-2xl text-center">Register</h1>
         <div className="mb-4">
           <label htmlFor="displayName" className="block mb-2">
             Name
@@ -162,17 +165,15 @@ const Registration = () => {
           <Link to="/login" className="text-blue-600 font-bold">
             Sign In
           </Link>
-          .
         </p>
       </form>
-
-      <div className="md:w-2/5 lg:w-3/5">
-        <h2 className="text-2xl font-bold mb-4">Hello, Babura...</h2>
-        <p className="text-gray-600">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos, aperiam
-          mollitia ex aspernatur magnam autem distinctio quasi totam expedita
-          provident.
-        </p>
+      <div className="w-full md:w-2/5 lg:w-3/5 flex items-center justify-center">
+        <Lottie
+          options={{
+            animationData: animationData,
+            loop: true,
+          }}
+        />
       </div>
     </div>
   );

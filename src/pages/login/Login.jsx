@@ -6,6 +6,9 @@ import hidepass from "../../assets/hide.svg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 import Swal from "sweetalert2";
+import Lottie from "lottie-react-web";
+import animationData from "../../assets/register.json";
+
 
 const Login = () => {
   const { user, singIn, googleSignIn } = useContext(AuthContext);
@@ -49,7 +52,8 @@ const Login = () => {
         const storedUser = {
           name: user.displayName,
           email: user.email,
-          photoUrl: user.photoUrl
+          photoUrl: user.photoUrl,
+          role: "student"
         };
         fetch("http://localhost:5000/users", {
           method: "POST",
@@ -73,8 +77,9 @@ const Login = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row min-h-screen items-center justify-center gap-6">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full md:w-3/5 lg:w-2/5 mx-auto p-8 bg-white rounded-lg shadow"
+        className="w-full md:w-3/5 lg:w-2/5 mx-auto p-8 bg-white rounded-lg shadow border-gray-800 border"
       >
+        <h1 className="text-xl text-center font-bold">LOGIN</h1>
         <div className="mb-4">
           <label htmlFor="email" className="block text-gray-700">
             Email:
@@ -140,11 +145,13 @@ const Login = () => {
           .
         </p>
       </form>
-      <div className="w-full md:w-2/5 lg:w-3/5">
-        <h2 className="text-2xl font-bold mb-4">Hello, Login there....</h2>
-        <p className="text-gray-600">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, neque?
-        </p>
+      <div className="w-full md:w-2/5 lg:w-2/5 flex items-center justify-center">
+        <Lottie
+          options={{
+            animationData: animationData,
+            loop: true,
+          }}
+        />
       </div>
     </div>
   );

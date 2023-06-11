@@ -16,6 +16,7 @@
     "axios": "^1.4.0",
     "firebase": "^9.22.1",
     "localforage": "^1.10.0",
+    "lottie-react-web": "^2.2.2",
     "match-sorter": "^6.3.1",
     "react-hook-form": "^7.44.3",
     "react-icons": "^4.9.0",
