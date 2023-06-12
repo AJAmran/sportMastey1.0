@@ -196,6 +196,17 @@ const Navbar = () => {
               Log Out
             </button>
           )}
+          {
+            !user?.email && (
+              <NavLink
+                to="/login"
+                activeClassName="font-bold text-gray-500"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Login
+              </NavLink>
+            )
+          }
         </div>
       </div>
     </nav>
