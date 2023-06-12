@@ -1,19 +1,29 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { CiDark } from 'react-icons/ci';
 import { FiSun } from 'react-icons/fi';
 import logo from '../../../assets/logo.png'
 import { AuthContext } from '../../../contexts/AuthProvider';
 import { ThemeContext } from '../../../contexts/ThemeContext';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import { useQuery } from '@tanstack/react-query';
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [axiosSecure] = useAxiosSecure();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const { data: users = [], isLoading: isClassesLoading } = useQuery(["users"], async () => {
+    const res = await axiosSecure.get("/users");
+    return res.data;
+  });
+
+ console.log(users)
 
   const handleLogOut = () => {
     logOut()
@@ -26,6 +36,11 @@ const Navbar = () => {
       });
   };
 
+  const findUserRole = (users) =>{
+    const currentUser = users.find(auth => auth.email === user?.email);
+    return currentUser?.role;
+  }
+  console.log(findUserRole(users))
   return (
     <nav className={`bg-gray-800 ${isDarkMode ? 'dark' : ''}`}>
       <div className="container mx-auto px-4 py-2">
@@ -65,7 +80,7 @@ const Navbar = () => {
               </NavLink>
               {user?.email && (
                 <NavLink
-                  to="/dashboard"
+                to={findUserRole(users) === 'admin' ? '/dashboard/adminHome' : findUserRole(users) === 'instructor' ? '/dashboard/instructorHome' : '/dashboard/studentHome'}
                   activeClassName="font-bold text-gray-500"
                   className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
@@ -157,7 +172,7 @@ const Navbar = () => {
           </NavLink>
           {user?.email && (
             <NavLink
-              to="/dashboard"
+            to={findUserRole(users) === 'admin' ? '/dashboard/adminHome' : findUserRole(users) === 'instructor' ? '/dashboard/instructorHome' : '/dashboard/studentHome'}
               activeClassName="font-bold text-gray-500"
               className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
             >

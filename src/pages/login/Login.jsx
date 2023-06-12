@@ -55,7 +55,7 @@ const Login = () => {
           photoUrl: user.photoUrl,
           role: "student"
         };
-        fetch("http://localhost:5000/users", {
+        fetch("https://sport-mastery-server-ajamran.vercel.app/users", {
           method: "POST",
           headers: {
             "content-type": "application/json",

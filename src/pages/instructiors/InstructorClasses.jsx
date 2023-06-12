@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthProvider";
+import { motion } from "framer-motion";
 
 const InstructorClasses = () => {
   const { user } = useContext(AuthContext);
   const [classes, setClasses] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/email/classes/${user?.email}`)
+    fetch(`https://sport-mastery-server-ajamran.vercel.app/email/classes/${user?.email}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -44,15 +45,17 @@ const InstructorClasses = () => {
   return (
     <div className="ml-[215px]">
       <div className="flex justify-between"> 
-      <h1 className="text-2xl font-bold mb-4">Instructor Classes</h1>
-      <h1 className="text-2xl font-bold mb-4">Total Student: {totalStudents}</h1>
-
+        <h1 className="text-2xl font-bold mb-4">Instructor Classes</h1>
+        <h1 className="text-2xl font-bold mb-4">Total Student: {totalStudents}</h1>
       </div>
 
       <div>
         {classes.map((classItem) => (
-          <div
+          <motion.div
             key={classItem._id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
             className="bg-white p-2 rounded-lg mb-4 flex flex-col sm:flex-row items-center justify-between border border-gray-800"
           >
             <div className="w-full sm:w-48 h-48 sm:h-full flex-shrink-0 mb-4 sm:mb-0">
@@ -89,7 +92,7 @@ const InstructorClasses = () => {
                 Update
               </button>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>

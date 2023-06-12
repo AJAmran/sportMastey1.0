@@ -41,9 +41,11 @@ const Dashboard = () => {
     <div className="bg-gray-800 text-white fixed h-full  w-[215px]">
       <nav className="p-4">
         <ul>
-        <li className="py-2 px-4">
+          {item.role === "admin" && (
+            <>
+            <li className="py-2 px-4">
                 <Link
-                  to="/dashboard"
+                  to="/dashboard/adminHome"
                   className="block text-gray-300 hover:text-white"
                 >
                   <span className="flex gap-3">
@@ -52,8 +54,6 @@ const Dashboard = () => {
                   </span>
                 </Link>
               </li>
-          {item.role === "admin" && (
-            <>
               <li className="py-2 px-4">
                 <Link
                   to="/dashboard/manageClasses"
@@ -81,6 +81,17 @@ const Dashboard = () => {
 
           {item.role === "instructor" && (
             <>
+            <li className="py-2 px-4">
+                <Link
+                  to="/dashboard/instructorHome"
+                  className="block text-gray-300 hover:text-white"
+                >
+                  <span className="flex gap-3">
+                    <AiFillHome size={24} />
+                    User Home
+                  </span>
+                </Link>
+              </li>
               <li className="py-2 px-4">
                 <Link
                   to="/dashboard/addClass"
@@ -108,6 +119,17 @@ const Dashboard = () => {
 
           {item.role !== "admin" && item.role !== "instructor" && (
             <>
+            <li className="py-2 px-4">
+                <Link
+                  to="/dashboard/studentHome"
+                  className="block text-gray-300 hover:text-white"
+                >
+                  <span className="flex gap-3">
+                    <AiFillHome size={24} />
+                    User Home
+                  </span>
+                </Link>
+              </li>
               <li className="py-2 px-4">
                 <Link
                   to="/dashboard/selectedClass"

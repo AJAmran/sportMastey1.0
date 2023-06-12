@@ -10,7 +10,7 @@ const ManageUsers = () => {
     })
 
   const handleMakeAdmin = async (user) => {
-    await fetch(`http://localhost:5000/users/admin/${user?._id}`, {
+    await fetch(`https://sport-mastery-server-ajamran.vercel.app/users/admin/${user?._id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +34,7 @@ const ManageUsers = () => {
   };
 
   const handleMakeInstructor = async (user) => {
-    await fetch(`http://localhost:5000/users/instructor/${user?._id}`, {
+    await fetch(`https://sport-mastery-server-ajamran.vercel.app/users/instructor/${user?._id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

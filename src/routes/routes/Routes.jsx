@@ -19,6 +19,9 @@ import AdminRoute from "../privateRoute/AdminRoute";
 import InstructorProtectedRoute from "../privateRoute/InstructorProtectedRoute";
 import StudentProtectedRoute from "../privateRoute/StudentProtectedRoute";
 import ErrorPage from "../../Components/ErrorPage/ErrorPage";
+import AdminHome from "../../pages/adminHome/AdminHome";
+import InstructorHome from "../../pages/instructorHome/InstructorHome";
+import StudentHome from "../../pages/studentHome/StudentHome";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +55,18 @@ const router = createBrowserRouter([
     path: '/dashboard',
     element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
     children:[
+      {
+        path: 'adminHome',
+        element:<AdminHome></AdminHome>
+      },
+      {
+        path: 'instructorHome',
+        element: <InstructorHome></InstructorHome>
+      },
+      {
+        path: 'studentHome',
+        element: <StudentHome></StudentHome>
+      },
       {
         path: 'manageUsers',
         element: <AdminRoute><Manageusers></Manageusers></AdminRoute>

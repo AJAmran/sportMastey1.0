@@ -40,10 +40,10 @@ const Accordion = () => {
           {questions.map((item, index) => (
             <div key={index} className="border border-gray-300 rounded-md mb-4">
               <button
-                className="w-full flex justify-between items-center py-3 px-4 bg-gray-800 hover:bg-gray-600 focus:outline-none"
+                className="w-full flex justify-between items-center py-3 px-4 bg-gray-300 hover:bg-gray-500 focus:outline-none border-2 border-b-gray-800"
                 onClick={() => toggleAccordion(index)}
               >
-                <span className="text-lg font-medium text-white">{item.question}</span>
+                <span className="text-lg font-medium text-gray-900">{item.question}</span>
                 <svg
                   className={`w-5 h-5 transition-transform ${
                     index === activeIndex ? "transform rotate-180" : ""

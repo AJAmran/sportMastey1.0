@@ -9,7 +9,7 @@ const SelectedClass = () => {
   );
 
   useEffect(() => {
-    fetch("http://localhost:5000/classes")
+    fetch("https://sport-mastery-server-ajamran.vercel.app/classes")
       .then((res) => res.json())
       .then((data) => {
         setClasses(data);

@@ -1,6 +1,7 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
 
 const ManageClasses = () => {
   const [axiosSecure] = useAxiosSecure();
@@ -66,7 +67,7 @@ const ManageClasses = () => {
     <div className="my-5 mx-4 ml-[215px] mr-20">
       <div className="overflow-x-auto border">
         <table className="min-w-full divide-y divide-black rounded-lg">
-          <thead className="bg-gray-800 text-white ">
+          <thead className="bg-gray-800 text-white">
             <tr>
               <th
                 scope="col"
@@ -120,7 +121,12 @@ const ManageClasses = () => {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {classes.map((classItem) => (
-              <tr key={classItem._id}>
+              <motion.tr
+                key={classItem._id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
                 <td className="px-6 py-4 whitespace-nowrap">
                   <img
                     src={classItem.image}
@@ -167,7 +173,7 @@ const ManageClasses = () => {
                     <button
                       onClick={() => handleApprove(classItem)}
                       className={`px-2 py-1 text-xs font-semibold rounded-lg ${
-                        classItem.status === "Approved" || classItem.status =="Denied"
+                        classItem.status === "Approved" || classItem.status === "Denied"
                           ? "bg-gray-400 text-gray-800 cursor-not-allowed"
                           : "bg-blue-500 text-white hover:bg-blue-600"
                       }`}
@@ -185,7 +191,7 @@ const ManageClasses = () => {
                           : "bg-red-500 text-white hover:bg-red-600"
                       }`}
                       disabled={
-                        denyClassItem.isLoading || classItem.status === "Denied" 
+                        denyClassItem.isLoading || classItem.status === "Denied"
                       }
                     >
                       Deny
@@ -198,7 +204,7 @@ const ManageClasses = () => {
                     </button>
                   </div>
                 </td>
-              </tr>
+              </motion.tr>
             ))}
           </tbody>
         </table>

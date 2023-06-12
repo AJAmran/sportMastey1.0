@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000', 
+    baseURL: 'https://sport-mastery-server-ajamran.vercel.app', 
   });
 
 const useAxiosSecure = () => {
@@ -25,7 +25,7 @@ const useAxiosSecure = () => {
             async (error) =>{
                 if(error.response && (error.response.status === 403 || error.response.status === 401)){
                     await logOut;
-                    navigate('/login');
+                    navigate('/');
                 }
                 return Promise.reject(error);
             }

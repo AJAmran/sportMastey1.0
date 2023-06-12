@@ -40,7 +40,7 @@ const AddCalsses = () => {
             studentNumber: parseFloat(0)
           };
           console.log(classInfo);
-          fetch('http://localhost:5000/classes', {
+          fetch('https://sport-mastery-server-ajamran.vercel.app/classes', {
             method: 'POST',
             headers: {
               'content-type': 'application/json'
