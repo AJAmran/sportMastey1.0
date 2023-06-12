@@ -15,6 +15,20 @@
 - Instructor Profiles: Include dedicated profiles for instructors, showcasing their qualifications, experience, and expertise in specific sports. This helps users make informed decisions when selecting courses.
 - Reviews and Ratings: Implement a review and rating system that allows users to provide feedback on the courses they have attended. This feature helps potential users make informed decisions and provides valuable insights for course improvements.
 -ntegration with Stripe Payment System: Integrate the Stripe payment system to securely process online payments for course bookings. This feature provides a seamless and reliable payment experience for users.
+
+
+## Used packages/ technology name
+- Tailwind CSS
+- Dasiy UI
+- Firebase
+- React js
+- node js
+- express js
+- mongoDB
+- stripe 
+- JWT Token
+- Framer-motion
+- lottie Animation 
 ## Demo
 
 Live Site:
