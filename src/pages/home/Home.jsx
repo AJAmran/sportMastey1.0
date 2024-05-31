@@ -9,11 +9,11 @@ const Home = () => {
   const { isDarkMode } = useContext(ThemeContext);
 
   return (
-    <div className={`container mx-auto px-4 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+    <div className={`container mx-auto px-4 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-800'} min-h-screen`}>
       <Carousel />
       <PopularClasses />
       <PopularInstructor />
-      <Accordion></Accordion>
+      <Accordion />
     </div>
   );
 };
