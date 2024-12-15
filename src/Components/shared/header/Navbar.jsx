@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { CiDark } from 'react-icons/ci';
-import { FiSun } from 'react-icons/fi';
-import logo from '../../../assets/logo.png'
-import { AuthContext } from '../../../contexts/AuthProvider';
-import { ThemeContext } from '../../../contexts/ThemeContext';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import { useQuery } from '@tanstack/react-query';
+import { useContext, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { CiDark } from "react-icons/ci";
+import { FiSun } from "react-icons/fi";
+import logo from "../../../assets/logo.png";
+import { AuthContext } from "../../../contexts/AuthProvider";
+import { ThemeContext } from "../../../contexts/ThemeContext";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -14,199 +14,221 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [axiosSecure] = useAxiosSecure();
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  const { data: users = [], isLoading: isClassesLoading } = useQuery(["users"], async () => {
+  const { data: users = [] } = useQuery(["users"], async () => {
     const res = await axiosSecure.get("/users");
     return res.data;
   });
 
- console.log(users)
+  const findUserRole = (users) => {
+    const currentUser = users.find((auth) => auth.email === user?.email);
+    return currentUser?.role;
+  };
 
   const handleLogOut = () => {
     logOut()
-      .then(result => {
-        const user = result.user;
-        console.log(user);
+      .then(() => {
+        console.log("Logged out successfully");
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch((error) => console.log(error));
   };
 
-  const findUserRole = (users) =>{
-    const currentUser = users.find(auth => auth.email === user?.email);
-    return currentUser?.role;
-  }
-  console.log(findUserRole(users))
   return (
-    <nav className={`bg-gray-800 ${isDarkMode ? 'dark' : ''}`}>
-      <div className="container mx-auto px-4 py-2">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <Link to="/" className="text-white font-bold">
-              <img
-                src={logo} 
-                alt="Logo"
-                className="h-16"
-              />
-            </Link>
-          </div>
-          <div className="hidden sm:flex sm:items-center sm:ml-6">
-            <div className="flex space-x-4">
-              <NavLink
-                exact
-                to="/"
-                activeClassName="font-bold text-gray-500"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Home
-              </NavLink>
-              <NavLink
-                to="/instructors"
-                activeClassName="font-bold text-gray-500"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Instructors
-              </NavLink>
-              <NavLink
-                to="/classes"
-                activeClassName="font-bold text-gray-500"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Classes
-              </NavLink>
-              {user?.email && (
-                <NavLink
-                to={findUserRole(users) === 'admin' ? '/dashboard/adminHome' : findUserRole(users) === 'instructor' ? '/dashboard/instructorHome' : '/dashboard/studentHome'}
-                  activeClassName="font-bold text-gray-500"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Dashboard
-                </NavLink>
-              )}
-            </div>
-          </div>
-          <div className="hidden sm:flex items-center gap-4">
-            <button
-              onClick={toggleTheme}
-              className="text-white"
-            >
-              {isDarkMode ? <CiDark /> : <FiSun />}
-            </button>
-            {user?.email ? (
-              <>
-                <div className="ml-2">
-                  <img
-                    src={user?.photoURL} 
-                    alt="Profile"
-                    className="h-8 rounded-full"
-                  />
-                </div>
-                <button
-                  onClick={handleLogOut}
-                  className="bg-[#006FA8] btn-sm px-2 text-white rounded text-sm"
-                >
-                  Log Out
-                </button>
-              </>
-            ) : (
-              <NavLink
-                to="/login"
-                activeClassName="font-bold text-gray-500"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Login
-              </NavLink>
-            )}
-          </div>
-          <div className="flex sm:hidden">
-            <button
-              type="button"
-              className="text-gray-400 hover:text-white focus:text-white focus:outline-none"
-              onClick={toggleMenu}
-            >
-              <svg
-                className="h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className={`${isMenuOpen ? 'block' : 'hidden'} sm:hidden`}>
-        <div className="px-2 pt-2 pb-3 space-y-1">
+    <nav className={`bg-gray-800 ${isDarkMode ? "dark" : ""}`}>
+      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2">
+          <img src={logo} alt="Logo" className="h-12" />
+        </Link>
+
+        {/* Desktop Links */}
+        <div className="hidden md:flex space-x-6 items-center">
           <NavLink
             exact
             to="/"
-            activeClassName="font-bold text-gray-500"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            activeClassName="font-bold text-gray-100"
+            className="text-gray-300 hover:text-white"
           >
             Home
           </NavLink>
           <NavLink
             to="/instructors"
-            activeClassName="font-bold text-gray-500"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            activeClassName="font-bold text-gray-100"
+            className="text-gray-300 hover:text-white"
           >
             Instructors
           </NavLink>
           <NavLink
             to="/classes"
-            activeClassName="font-bold text-gray-500"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            activeClassName="font-bold text-gray-100"
+            className="text-gray-300 hover:text-white"
+          >
+            Classes
+          </NavLink>
+          <NavLink
+            to="/about"
+            activeClassName="font-bold text-gray-100"
+            className="text-gray-300 hover:text-white"
+          >
+            About
+          </NavLink>
+          <NavLink
+            to="/blog"
+            activeClassName="font-bold text-gray-100"
+            className="text-gray-300 hover:text-white"
+          >
+            Blog
+          </NavLink>
+          {user?.email && (
+            <NavLink
+              to={
+                findUserRole(users) === "admin"
+                  ? "/dashboard/adminHome"
+                  : findUserRole(users) === "instructor"
+                  ? "/dashboard/instructorHome"
+                  : "/dashboard/studentHome"
+              }
+              activeClassName="font-bold text-gray-100"
+              className="text-gray-300 hover:text-white"
+            >
+              Dashboard
+            </NavLink>
+          )}
+        </div>
+
+        {/* Theme Toggle & User Section */}
+        <div className="hidden md:flex items-center gap-4">
+          <button onClick={toggleTheme} className="text-white">
+            {isDarkMode ? <CiDark size={24} /> : <FiSun size={24} />}
+          </button>
+          {user?.email ? (
+            <>
+              <img
+                src={user.photoURL}
+                alt="User"
+                className="h-8 w-8 rounded-full"
+              />
+              <button
+                onClick={handleLogOut}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md"
+              >
+                Log Out
+              </button>
+            </>
+          ) : (
+            <NavLink
+              to="/login"
+              activeClassName="font-bold text-gray-100"
+              className="px-4 py-2 bg-blue-600 text-white rounded-md"
+            >
+              Login
+            </NavLink>
+          )}
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={toggleMenu}
+          className="text-white md:hidden focus:outline-none"
+        >
+          {isMenuOpen ? (
+            <svg
+              className="h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          ) : (
+            <svg
+              className="h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16m-7 6h7"
+              />
+            </svg>
+          )}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      <div
+        className={`${isMenuOpen ? "block" : "hidden"} md:hidden bg-gray-700`}
+      >
+        <div className="px-4 py-4 space-y-3">
+          <NavLink
+            exact
+            to="/"
+            activeClassName="font-bold text-gray-100"
+            className="text-gray-300 block hover:text-white"
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/instructors"
+            activeClassName="font-bold text-gray-100"
+            className="text-gray-300 block hover:text-white"
+          >
+            Instructors
+          </NavLink>
+          <NavLink
+            to="/classes"
+            activeClassName="font-bold text-gray-100"
+            className="text-gray-300 block hover:text-white"
           >
             Classes
           </NavLink>
           {user?.email && (
             <NavLink
-            to={findUserRole(users) === 'admin' ? '/dashboard/adminHome' : findUserRole(users) === 'instructor' ? '/dashboard/instructorHome' : '/dashboard/studentHome'}
-              activeClassName="font-bold text-gray-500"
-              className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              to={
+                findUserRole(users) === "admin"
+                  ? "/dashboard/adminHome"
+                  : findUserRole(users) === "instructor"
+                  ? "/dashboard/instructorHome"
+                  : "/dashboard/studentHome"
+              }
+              activeClassName="font-bold text-gray-100"
+              className="text-gray-300 block hover:text-white"
             >
               Dashboard
             </NavLink>
           )}
-          {user?.email && (
-            <div className="ml-2">
-              <img
-                src={user?.photoURL} 
-                alt="Profile"
-                className="h-8 rounded-full"
-              />
-            </div>
-          )}
-          {user?.email && (
+          <button onClick={toggleTheme} className="text-white w-full text-left">
+            {isDarkMode ? "Dark Mode" : "Light Mode"}
+          </button>
+          {user?.email ? (
             <button
               onClick={handleLogOut}
-              className="bg-[#006FA8] btn-sm px-2 text-white rounded text-sm"
+              className="w-full px-4 py-2 bg-blue-600 text-white rounded-md"
             >
               Log Out
             </button>
-          )}
-          {
-            !user?.email && (
+          ) : (
+            <div>
               <NavLink
                 to="/login"
-                activeClassName="font-bold text-gray-500"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                activeClassName="font-bold text-gray-100 "
+                className="w-full px-4 py-2 bg-blue-600 text-white rounded-md"
               >
                 Login
               </NavLink>
-            )
-          }
+            </div>
+          )}
         </div>
       </div>
     </nav>

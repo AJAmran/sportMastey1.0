@@ -9,7 +9,6 @@ import Swal from "sweetalert2";
 import Lottie from "lottie-react-web";
 import animationData from "../../assets/register.json";
 
-
 const Login = () => {
   const { user, singIn, googleSignIn } = useContext(AuthContext);
   const [error, setError] = useState("");
@@ -17,20 +16,24 @@ const Login = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  console.log(user);
   const { register, handleSubmit } = useForm();
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
   const onSubmit = (data) => {
     const { email, password } = data;
-    console.log(email, password);
     singIn(email, password)
-      .then((result) => {
+      .then(() => {
         Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'User Login Successful',
+          position: "top-end",
+          icon: "success",
+          title: "Login Successful",
           showConfirmButton: false,
-          timer: 1500
-        })
+          timer: 1500,
+        });
         navigate(from, { replace: true });
       })
       .catch((error) => {
@@ -38,35 +41,25 @@ const Login = () => {
       });
   };
 
-  const [passwordVisible, setPasswordVisible] = React.useState(false);
-
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
-
   const handleGoogleLogin = () => {
     googleSignIn()
       .then((result) => {
         const user = result.user;
-        console.log(user);
         const storedUser = {
           name: user.displayName,
           email: user.email,
-          photoUrl: user.photoUrl,
-          role: "student"
+          photoUrl: user.photoURL,
+          role: "student",
         };
         fetch("https://sport-mastery-server-ajamran.vercel.app/users", {
           method: "POST",
           headers: {
-            "content-type": "application/json",
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(storedUser),
-        })
-        .then(res=> res.json())
-        .then(() => {
-            navigate(from, { replace: true })
-        })
-
+        }).then(() => {
+          navigate(from, { replace: true });
+        });
       })
       .catch((error) => {
         setError(error.message);
@@ -74,83 +67,94 @@ const Login = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row min-h-screen items-center justify-center gap-6">
+    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen px-4 py-8 bg-gray-100">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full md:w-3/5 lg:w-2/5 mx-auto p-8 bg-white rounded-lg shadow border-gray-800 border"
+        className="w-full md:w-2/5 bg-white p-6 rounded-lg shadow-md border border-gray-300"
       >
-        <h1 className="text-xl text-center font-bold">LOGIN</h1>
+        <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
+          Login to Your Account
+        </h2>
         <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700">
-            Email:
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Email
           </label>
           <input
             type="email"
             id="email"
             {...register("email")}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+            className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
             placeholder="Enter your email"
           />
         </div>
-
         <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-700">
-            Password:
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Password
           </label>
           <div className="relative">
             <input
               type={passwordVisible ? "text" : "password"}
               id="password"
               {...register("password")}
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder="Enter your password"
             />
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="absolute right-0 top-0 mt-2 mr-3 text-gray-600"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2"
             >
-              {passwordVisible ? (
-                <img src={showpass} alt="" />
-              ) : (
-                <img src={hidepass} alt="" />
-              )}
+              <img
+                src={passwordVisible ? showpass : hidepass}
+                alt="Toggle Password Visibility"
+                className="w-6 h-6"
+              />
             </button>
           </div>
         </div>
-
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded focus:outline-none hover:bg-blue-600"
+          className="w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-sm hover:bg-blue-700 transition"
         >
           Login
         </button>
-
-        <div className="divider">OR</div>
+        <div className="flex items-center justify-center mt-4">
+          <span className="block h-px w-1/4 bg-gray-300"></span>
+          <span className="px-4 text-gray-500 text-sm">OR</span>
+          <span className="block h-px w-1/4 bg-gray-300"></span>
+        </div>
         <button
           type="button"
-          className="w-full font-semibold py-2 px-4 rounded focus:outline-none hover:bg-gray-300 border text-lg"
           onClick={handleGoogleLogin}
+          className="w-full mt-4 flex items-center justify-center gap-2 bg-gray-100 border border-gray-300 rounded-lg py-2 px-4 hover:bg-gray-200 transition"
         >
-          <div className="flex gap-3 items-center justify-center">
-            <FcGoogle size={24}></FcGoogle> <span>Login with Google</span>
-          </div>
+          <FcGoogle size={24} />
+          <span className="text-gray-700 font-medium">Login with Google</span>
         </button>
-        <p className="text-red-600">{error}</p>
-        <p className="mt-4">
-          Already have an Account{" "}
-          <Link to="/registration" className="text-blue-600 font-bold">
+        {error && (
+          <p className="mt-4 text-red-500 text-sm text-center">{error}</p>
+        )}
+        <p className="mt-6 text-center text-gray-600">
+          Don’t have an account?{" "}
+          <Link
+            to="/registration"
+            className="text-blue-500 font-medium hover:underline"
+          >
             Register
           </Link>
-          .
         </p>
       </form>
-      <div className="w-full md:w-2/5 lg:w-2/5 flex items-center justify-center">
+      <div className="w-full md:w-2/5 mt-8 md:mt-0 flex justify-center items-center">
         <Lottie
-          options={{
-            animationData: animationData,
-            loop: true,
-          }}
+          options={{ animationData, loop: true }}
+          width={300}
+          height={300}
         />
       </div>
     </div>
